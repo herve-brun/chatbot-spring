@@ -4,22 +4,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
 /**
  * Controller managing interactions for the assistant functionality.
  */
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.NONE)
 class AssistantController {
 
     /**
      * The assistant service used to handle chat operations.
      */
-    final Assistant assistant;
+    Assistant assistant;
 
     /**
      * Handles incoming chat requests and returns a stream of responses.
@@ -32,5 +32,18 @@ class AssistantController {
         return assistant.chat(message)
                 .onErrorReturn("An error occurred during the request");
     }
+
+    @GetMapping("/greet")
+    public Flux<String> greet(String username) {
+        return assistant.greet(username)
+                .onErrorReturn("An error occurred during the request");
+    }
+
+    @GetMapping("/yo")
+    public Flux<String> yo(String username, String language) {
+        return assistant.yo(username, language)
+                .onErrorReturn("An error occurred during the request");
+    }
+
 }
 
