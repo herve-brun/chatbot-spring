@@ -25,25 +25,25 @@ class AssistantController {
      * Handles incoming chat requests and returns a stream of responses.
      *
      * @param message The input message from the user.
-     * @return A Flux of Strings representing the chat response, with an error fallback message.
+     * @return A Flux of Strings representing the chat response, with an error
+     *         fallback message.
      */
-    @GetMapping("/chat")
+    @GetMapping(path = "/chat", produces = "text/event-stream")
     public Flux<String> chat(String message) {
         return assistant.chat(message)
                 .onErrorReturn("An error occurred during the request");
     }
 
-    @GetMapping("/greet")
+    @GetMapping(path = "/greet", produces = "text/event-stream")
     public Flux<String> greet(String username) {
         return assistant.greet(username)
                 .onErrorReturn("An error occurred during the request");
     }
 
-    @GetMapping("/yo")
+    @GetMapping(path = "/yo", produces = "text/event-stream")
     public Flux<String> yo(String username, String language) {
         return assistant.yo(username, language)
                 .onErrorReturn("An error occurred during the request");
     }
 
 }
-
