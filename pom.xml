@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a Maven Project Object Model (POM) file that defines the structure -->
+<!-- and dependencies for a Spring Boot application. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- Specifies the version of the POM model -->
+	<modelVersion>4.0.0</modelVersion>
+
+    <!-- Parent project configuration which includes shared properties -->
+    <!-- and dependencies for this project. -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+        <!-- Specifies the version of Spring Boot to use -->
+		<version>3.4.4</version>
+        <!-- Indicates that the parent POM should be looked up in the repository -->
+        <relativePath />
+	</parent>
+
+    <!-- Group identifier for the project -->
+	<groupId>fr.laposte.banque</groupId>
+    <!-- Artifact identifier for the project -->
+	<artifactId>demo</artifactId>
+    <!-- Version of the project -->
+	<version>0.0.1-SNAPSHOT</version>
+    <!-- Name of the project -->
+	<name>demo</name>
+    <!-- Description of the project -->
+	<description>Demo project for Spring Boot</description>
+
+    <!-- Licenses associated with the project -->
+	<licenses>
+		<license>
+            <!-- Specifies the name of the license -->
+			<name>MIT License</name>
+            <!-- URL where the license can be found -->
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
+
+    <!-- Developer information -->
+	<developers>
+		<developer>
+            <!-- Unique developer identifier -->
+			<id>herve-brun</id>
+            <!-- Name of the developer -->
+			<name>Hervé Brun</name>
+            <!-- Email address of the developer -->
+			<email>herve.brun@gmail.com</email>
+		</developer>
+	</developers>
+
+    <!-- Source Code Management (SCM) information -->
+	<scm>
+        <!-- URL of the project's repository -->
+		<url>https://github.com/herve-brun/ai-ollama-first-project/demo.git</url>
+        <!-- Tag used for versioning in the repository -->
+		<tag>${project.version}</tag>
+	</scm>
+
+    <!-- Properties that can be reused across the POM file -->
+	<properties>
+        <!-- Java version to use -->
+		<java.version>24</java.version>
+
+        <!-- Version of LangChain4J -->
+		<langchain4j.version>1.0.0-beta3</langchain4j.version>
+
+        <!-- Version of JUnit -->
+		<junit.version>5.8.2</junit.version>
+	</properties>
+
+    <!-- Dependencies required by the project -->
+	<dependencies>
+        <!-- Spring Boot Actuator for production readiness -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+        <!-- Spring Boot Admin Server and Client for monitoring -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-server</artifactId>
+			<version>3.4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>3.4.5</version>
+		</dependency>
+
+        <!-- Spring Boot Web for building web applications -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+        <!-- Lombok for reducing boilerplate code -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+		</dependency>
+
+        <!-- JUnit Testing Framework -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+        <!-- Spring Boot Starter Tests for testing -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+        <!-- LangChain4J Ollama Integration -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-ollama-spring-boot-starter</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+
+        <!-- LangChain4J Spring Boot Starter -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-spring-boot-starter</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+
+        <!-- LangChain4J Reactor -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-reactor</artifactId>
+            <version>${langchain4j.version}</version>
+		</dependency>
+	</dependencies>
+
+    <!-- Build configuration -->
+	<build>
+		<plugins>
+            <!-- Spring Boot Maven Plugin for building and running the application -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+            <!-- CycloneDX Plugin for generating Software Bill of Materials (SBOM) -->
+			<plugin>
+				<groupId>org.cyclonedx</groupId>
+				<artifactId>cyclonedx-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<?m2e execute onConfiguration,onIncremental?>
+						<configuration>
+                            <!-- Specifies the type of project -->
+							<projectType>application</projectType>
+                            <!-- Output directory for the SBOM file -->
+							<outputDirectory>${project.build.outputDirectory}/META-INF/sbom</outputDirectory>
+                            <!-- Format of the SBOM output -->
+							<outputFormat>json</outputFormat>
+                            <!-- Name of the SBOM file -->
+							<outputName>application.cdx</outputName>
+						</configuration>
+                        <!-- Goals to execute -->
+						<goals>
+							<goal>makeAggregateBom</goal>
+						</goals>
+                        <!-- Phase during which this plugin is executed -->
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+    <!-- Dependency Management -->
+    <dependencyManagement>
+		<dependencies>
+            <!-- Spring AI Bill of Materials (BOM) for dependency management -->
+			<dependency>
+				<groupId>org.springframework.ai</groupId>
+				<artifactId>spring-ai-bom</artifactId>
+				<version>1.0.0-M7</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>
